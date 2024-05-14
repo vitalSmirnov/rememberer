@@ -11,18 +11,18 @@ app = Client(
 )
 
 
-def next_birthday_scenario(birthday_id, group_link):
-    for user in app.get_chat_members(GROUP_ID, limit=0):
+async def next_birthday_scenario(birthday_id, group_link):
+    async for user in app.get_chat_members(chat_id=GROUP_ID, limit=0):
         print(user, 'users')
         if user is not None and birthday_id != user.user.id:
-            send_remember(user.user.id, group_link)
+            await send_remember(user.user.id, group_link)
 
 
-def clear_history(chat_id):
+async def clear_history(chat_id):
     DeleteHistory(peer=chat_id, max_id=1000000)
 
 
-def check_commands(commands):
+async def check_commands(commands):
     print(commands, 'commands')
     if not commands:
         return
@@ -30,16 +30,16 @@ def check_commands(commands):
         for command in commands:
             print(command, 'command')
             if command[0] == 'next':
-                next_birthday_scenario(command[1]['tg id'], command[1]['group link'])
+                await next_birthday_scenario(command[1]['tg id'], command[1]['group link'])
             if command[0] == 'prev':
-                clear_history(command[1]['group id'])
+                await clear_history(command[1]['group id'])
 
     return
 
 
-def send_remember(users, chat_link):
+async def send_remember(users, chat_link):
     for user in users:
-        app.send_message(
+        await app.send_message(
             user.id,
             f"Скоро у [{user.name}](tg://user?id={user.id}) день рождения - вот ссылка на чат {chat_link}",
         )

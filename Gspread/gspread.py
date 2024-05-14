@@ -31,8 +31,8 @@ class Gspread:
 
         return return_value
 
-    def monitoring(self):
+    async def monitoring(self):
         next_birthday_date = date.today() + timedelta(days=14)
         prev_birthday_date = date.today() + timedelta(days=-2)
         commands = self.check_birthdays(next_birthday_date, prev_birthday_date)
-        check_commands(commands)
+        await check_commands(commands)
