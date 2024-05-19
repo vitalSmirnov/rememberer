@@ -10,6 +10,9 @@ class Gspread:
 
     def __init__(self, bot: Client):
         self.bot_instance = bot
+        self.refresh_token()
+
+    def refresh_token(self):
         self.gc = gspread.oauth(
             credentials_filename='credentials.json',
             authorized_user_filename='authorized_user.json'
@@ -17,7 +20,7 @@ class Gspread:
 
     def get_table(self):
         sheet = self.gc.open('Rememberer')
-        return sheet.sheet1.get_all_records()
+        return sheet.sheet1.get_all_records(expected_headers=['tg id', 'name', 'date', 'group link', 'group id'])
 
     def check_birthdays(self, next_birthday_date, prev_birthday_date):
         return_value = []
@@ -27,7 +30,7 @@ class Gspread:
             if row['date'] == str(next_birthday_date):
                 return_value.append(['next', row])
             if row['date'] == str(prev_birthday_date):
-                return_value.append(['next', row])
+                return_value.append(['prev', row])
 
         return return_value
 
