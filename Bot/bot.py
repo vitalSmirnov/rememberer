@@ -1,7 +1,5 @@
 from pyrogram import filters, Client
-from pyrogram.raw import functions
 from static.config import BOT_TOKEN, API_HASH, API_ID, GROUP_ID
-from pyrogram.raw.types import InputPeerChat
 
 app = Client(
     "bot",
@@ -51,9 +49,7 @@ async def send_remember(user, chat_link):
 
 @app.on_message(filters.command(['start']))
 async def start(_, message):
-    print(message)
     await app.send_message(
         chat_id=message.from_user.id,
-        text='Спасибо за то, что написали! Это бот для уведомлений '
-             'о днях рождения, который будет присылать напоминания за 2 недели'
+        text=f'Спасибо что написали! Это бот для напоминания о днях рождения друзей. Ваш id: {message.from_user.id}'
     )

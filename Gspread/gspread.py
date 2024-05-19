@@ -34,6 +34,20 @@ class Gspread:
 
         return return_value
 
+    # async def check_id_record_exist(self, id):
+    #     table = self.get_table()
+    #     for row in table:
+    #         if int(row['tg id']) == int(id):
+    #             return False
+    #     return True
+    #
+    # async def add_record(self, values: list):
+    #     if self.check_id_record_exist(values[0]):
+    #         self.gc.append_row(values, table_range="A1:B1")
+    #         return 'Спасибо за то, что написали! Это бот для уведомлений о днях рождения, который будет присылать напоминания за 2 недели'
+    #     else:
+    #         return f'Спасибо, вы уже есть в системе. Ваш id: {values[0]}'
+
     async def monitoring(self):
         next_birthday_date = date.today() + timedelta(days=14)
         prev_birthday_date = date.today() + timedelta(days=-2)
